@@ -2,10 +2,9 @@ name: Collecte Vélib toutes les 5 minutes
 
 on:
   schedule:
-    # Minutes 2, 7, 12, ... 57 UTC ; évite le début d'heure, souvent chargé.
-    - cron: '2-59/5 * * * *'
+    - cron: '3,8,13,18,23,28,33,38,43,48,53,58 * * * *'
   workflow_dispatch:
-
+  
 permissions:
   contents: write
 
