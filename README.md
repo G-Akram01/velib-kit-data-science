@@ -16,10 +16,6 @@ Projet de groupe · DATA-IA-EXE710 · Télécom Paris · 2026–2027</p>
 
 <table align="center">
   <tr>
-    <th>Données étudiées</th>
-    <th>Cadre du projet étudiant</th>
-  </tr>
-  <tr>
     <td align="center"><a href="https://blog.velib-metropole.fr/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://blog.velib-metropole.fr/wp-content/uploads/2023/11/VELIB_LOGO_BLANC.png"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5b/V%C3%A9lib-M%C3%A9tropole-Logo.png" alt="Logo Vélib’ Métropole" height="78"></picture></a></td>
     <td align="center"><a href="https://www.telecom-paris.fr/fr/ecole/bref/logos"><img src="https://archi-sec.telecom-paristech.fr/Partners?action=AttachFile&amp;do=get&amp;target=logo_tpt_ltci.png" alt="Logo Télécom Paris avec endossement IP Paris" height="104"></a></td>
   </tr>
