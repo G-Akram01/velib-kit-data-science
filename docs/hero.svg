@@ -1,1 +1,32 @@
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 280" role="img" aria-labelledby="title desc">
+  <title id="title">Vélib’ — Kit Data Science</title>
+  <desc id="desc">Bandeau illustrant un réseau de stations et une trajectoire de données.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1">
+      <stop offset="0" stop-color="#102e34"/>
+      <stop offset=".55" stop-color="#123c3d"/>
+      <stop offset="1" stop-color="#17414d"/>
+    </linearGradient>
+    <linearGradient id="route" x2="1" y2="0">
+      <stop stop-color="#56dbc0"/>
+      <stop offset="1" stop-color="#94df78"/>
+    </linearGradient>
+    <pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse">
+      <path d="M38 0H0V38" fill="none" stroke="#d8fff2" stroke-opacity=".07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="280" rx="20" fill="url(#bg)"/>
+  <rect width="1200" height="280" rx="20" fill="url(#grid)"/>
+  <path d="M650 252C728 160 745 207 799 142S898 125 945 66s124 30 204-5" fill="none" stroke="#65d9bc" stroke-opacity=".14" stroke-width="44" stroke-linecap="round"/>
+  <path d="M650 252C728 160 745 207 799 142S898 125 945 66s124 30 204-5" fill="none" stroke="url(#route)" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 10"/>
+  <g fill="#d7ffeb" stroke="#74dfbd" stroke-width="4">
+    <circle cx="799" cy="142" r="10"/>
+    <circle cx="945" cy="66" r="10"/>
+    <circle cx="1082" cy="81" r="10"/>
+  </g>
+  <path d="M0 251H515" stroke="#74dfbd" stroke-opacity=".35" stroke-width="2"/>
+  <text x="64" y="58" fill="#aee9d5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" letter-spacing="4">DATA · IA · EXE710</text>
+  <text x="64" y="132" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="55" font-weight="700">Vélib’ Métropole</text>
+  <text x="64" y="185" fill="#c5f4e6" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400">Kit Data Science</text>
+  <text x="64" y="231" fill="#d6e8e8" font-family="Arial, Helvetica, sans-serif" font-size="17">Observer les stations · mesurer la qualité · explorer le risque de station vide</text>
+</svg>
