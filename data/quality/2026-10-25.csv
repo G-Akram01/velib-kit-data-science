@@ -90,3 +90,4 @@ collected_at_utc,source_url,source_last_updated,station_count,unique_station_cou
 2026-10-25T07:15:40+00:00,https://velib-metropole-opendata.smovengo.cloud/opendata/Velib_Metropole/station_status.json,1792912527,1519,1519,0,1519,1519,1373,70
 2026-10-25T07:20:40+00:00,https://velib-metropole-opendata.smovengo.cloud/opendata/Velib_Metropole/station_status.json,1792912831,1519,1519,0,1519,23,23,70
 2026-10-25T07:25:27+00:00,https://velib-metropole-opendata.smovengo.cloud/opendata/Velib_Metropole/station_status.json,1792913080,1519,1519,0,1519,281,23,70
+2026-10-25T07:30:51+00:00,https://velib-metropole-opendata.smovengo.cloud/opendata/Velib_Metropole/station_status.json,1792913441,1519,1519,0,1519,1394,23,73
