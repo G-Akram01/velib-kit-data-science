@@ -118,7 +118,7 @@ Utiliser `--private` si le groupe veut restreindre l’accès ; Colab devra alor
 
 ## Explorer dans Google Colab
 
-Pour ce dépôt public, ouvrir le [notebook d’exploration dans Colab](https://colab.research.google.com/drive/1mU9esIdrviEbBb6u-mb70l7moLGASALp?usp=drive_link)]. L’adresse générique est :
+Pour ce dépôt public, ouvrir le [notebook d’exploration dans Colab](https://colab.research.google.com/drive/1mU9esIdrviEbBb6u-mb70l7moLGASALp?usp=drive_link). L’adresse générique est :
 
 ```text
 https://colab.research.google.com/drive/1mU9esIdrviEbBb6u-mb70l7moLGASALp?usp=drive_link
