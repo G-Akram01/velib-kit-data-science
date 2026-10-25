@@ -118,10 +118,10 @@ Utiliser `--private` si le groupe veut restreindre l’accès ; Colab devra alor
 
 ## Explorer dans Google Colab
 
-Pour ce dépôt public, ouvrir le [notebook d’exploration dans Colab]([https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/main/notebooks/01_exploration_velib.ipynb](https://colab.research.google.com/drive/1mU9esIdrviEbBb6u-mb70l7moLGASALp?usp=drive_link)). L’adresse générique est :
+Pour ce dépôt public, ouvrir le [notebook d’exploration dans Colab](https://colab.research.google.com/drive/1mU9esIdrviEbBb6u-mb70l7moLGASALp?usp=drive_link)]. L’adresse générique est :
 
 ```text
-[https://colab.research.google.com/github/<UTILISATEUR>/velib-kit-data-science/blob/main/notebooks/01_exploration_velib.ipynb](https://colab.research.google.com/drive/1mU9esIdrviEbBb6u-mb70l7moLGASALp?usp=drive_link)
+https://colab.research.google.com/drive/1mU9esIdrviEbBb6u-mb70l7moLGASALp?usp=drive_link
 ```
 
 Chaque membre peut exécuter le notebook et contribuer au même dépôt via branches et pull requests. Pour une copie modifiable sur Drive : **Fichier → Enregistrer une copie dans Drive → Partager**. Éviter les copies divergentes et privilégier GitHub pour les versions officielles du projet.
