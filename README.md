@@ -23,7 +23,7 @@ Projet de groupe · DATA-IA-EXE710 · Télécom Paris · 2026–2027</p>
 
 > **Projet pédagogique indépendant.** Vélib’ Métropole fournit les données ouvertes étudiées ici ; l’usage de son nom et de son logo n’implique ni partenariat, ni validation, ni affiliation officielle avec le service. Les marques et logos restent la propriété de leurs titulaires.
 
-**Accès rapide :** [Résultats](#résultats-vérifiés) · [Méthode](#méthode-de-collecte) · [Démarrer](#reproduire-le-projet) · [Colab](#explorer-dans-google-colab) · [Limites](#limites-et-précautions) · [Équipe](#équipe)
+**Accès rapide :** [Réponse à la question](#réponse-à-la-question) · [Résultats](#résultats-vérifiés) · [Gouvernance des données](docs/gouvernance-donnees.md) · [Démarrer](#reproduire-le-projet) · [Colab](#explorer-dans-google-colab) · [Limites](#limites-et-précautions) · [Équipe](#équipe)
 
 > **Version préparée pour la remise :** cette branche `finalisation-remise-2026-11-08` contient le notebook exécuté et le rapport PDF. La branche `main` n'a pas été modifiée par cette finalisation.
 
@@ -49,6 +49,14 @@ Le [notebook principal](notebooks/Analyse_velib_V_07_11.ipynb) a été exécuté
 Parmi les stations en service analysées, **4,8 %** des observations sont vides et **18,3 %** ont au plus deux vélos. Sur le test chronologique, la forêt aléatoire obtient un **F1 de 0,563**, contre **0,562** pour la persistance. Cet écart de 0,001 ne démontre pas un gain robuste. La régression complémentaire du nombre de vélos a une erreur absolue moyenne de 1,47 vélo, contre 1,34 pour la règle « nombre inchangé ».
 
 Le [rapport PDF](docs/rapport-final.pdf) détaille la méthode, les graphiques, les résultats et les limites. Le notebook `03_Machine_Learning_Modeling.ipynb` est une **exploration distincte** : il prédit un passage à vide à n'importe quel moment des 30 minutes suivantes, parmi les stations initialement non vides. Ses scores ne sont pas comparables à ceux du notebook principal et ne sont pas utilisés dans le rapport.
+
+L'[état vérifié des douze tâches du tableau GitHub Projects](docs/etat-projet.md) distingue les livrables terminés de ceux encore à valider ou à compléter.
+
+## Réponse à la question
+
+**Peut-on prévoir qu'une station Vélib' en service sera vide exactement 30 minutes plus tard ?** Les relevés permettent de construire une cible future vérifiable, mais le modèle actuel ne démontre **pas** de gain fiable sur une règle très simple : si la station est vide maintenant, la prédire encore vide. Le F1 global de la forêt aléatoire est de 0,563, contre 0,562 pour cette persistance sur le même test chronologique. Pour les stations **encore pourvues de vélos**, qui représentent le cas d'usage le plus utile, la forêt n'en détecte que 10,4 % lorsqu'elles se vident à +30 minutes (précision 34,0 %, F1 0,159). La régression logistique détecte 14,3 % de ces cas (précision 24,7 %, F1 0,181). Le résultat est une preuve de concept descriptive, pas une alerte exploitable en temps réel.
+
+Cette réponse est en outre **conditionnelle** : le jeu de test ne conserve que les stations en service à l'instant initial **et** à +30 minutes. Il écarte donc les stations qui ferment pendant cet intervalle. Les [fermetures temporaires annoncées par Vélib’ pour le 31 octobre](https://blog.velib-metropole.fr/fermeture-temporaire-de-stations-velib-a-loccasion-des-manifestations-2/) ont commencé dès le 30 octobre ; la [Ville de Paris documente aussi celles du 24 octobre](https://www.paris.fr/?photo=26-12). Dans nos relevés, le nombre de stations où `is_renting != 1` est d'environ 20 en milieu de semaine, contre 166 le 25 octobre et jusqu'à 142 le 30 au soir. Le flux n'indique pas la cause de chaque fermeture. Les moyennes du dimanche et les scores du modèle ne représentent donc pas nécessairement une semaine sans perturbation. La [note de gouvernance](docs/gouvernance-donnees.md) décrit ce biais et les règles d'exclusion.
 
 ## Du flux à la question scientifique
 
@@ -91,7 +99,9 @@ Le collecteur continue tant que le workflow reste activé. L’indicateur `compl
 | `src/audit_collection.py` | Bilan de la fenêtre glissante de 48 h |
 | `notebooks/Analyse_velib_V_07_11.ipynb` | Notebook principal exécuté : qualité, exploration et cible exacte à +30 min |
 | `notebooks/03_Machine_Learning_Modeling.ipynb` | Exploration d'une autre cible, hors résultats du rapport |
-| `docs/rapport-final.pdf` | Rapport de remise |
+| `docs/rapport-final.tex` et `docs/rapport-final.pdf` | Source LaTeX et rapport de remise compilé |
+| `docs/gouvernance-donnees.md` | Provenance, dictionnaire, qualité, droits, biais et conservation |
+| `docs/etat-projet.md` | Contrôle des douze tâches et priorités de remise |
 | `tests/` | Tests unitaires sans connexion réseau |
 | `.github/workflows/tests.yml` | Exécution automatique des tests lors des changements hors données |
 
@@ -102,6 +112,7 @@ Le collecteur continue tant que le workflow reste activé. L’indicateur `compl
 ```bash
 git clone https://github.com/G-Akram01/velib-kit-data-science.git
 cd velib-kit-data-science
+git switch finalisation-remise-2026-11-08
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -110,6 +121,10 @@ python -m src.audit_collection --hours 48
 ```
 
 Ouvrir ensuite `notebooks/Analyse_velib_V_07_11.ipynb` et exécuter toutes les cellules dans l'ordre. Le notebook est volontairement limité aux dates du 25 au 30 octobre pour que ses résultats soient reproductibles. L'audit sur 48 h mesure la **fenêtre récente** et affiche donc `complete_48h: false` avec les dernières données ; cela n'invalide pas la période historique retenue. Une collecte locale ponctuelle est facultative : `python -m src.collect_velib` ajoute un nouvel instantané et demande un accès réseau.
+
+### Recompiler le rapport LaTeX
+
+Depuis la racine de la branche de remise, installer [Tectonic](https://tectonic-typesetting.github.io/) et exécuter `tectonic docs/rapport-final.tex --outdir docs`. Le PDF est généré depuis `docs/rapport-final.tex` et les figures PNG extraites des cellules exécutées du notebook sous `docs/figures/`. La mise en page actuelle utilise les polices Georgia et Avenir Next disponibles sur le poste de compilation ; sur un autre système, ajuster les deux déclarations `\setmainfont` et `\setsansfont` au début du fichier LaTeX si elles manquent.
 
 Pour lancer la première collecte sur GitHub, ouvrir **Actions → Collecte Vélib toutes les 5 minutes → Run workflow**, puis vérifier les fichiers sous `data/raw/`. Le workflow programmé doit figurer sur la branche par défaut `main`. Si le commit échoue faute de droits, vérifier les permissions GitHub Actions du dépôt et les règles de branche.
 
