@@ -25,6 +25,8 @@ Projet de groupe · DATA-IA-EXE710 · Télécom Paris · 2026–2027</p>
 
 **Accès rapide :** [Résultats](#résultats-vérifiés) · [Méthode](#méthode-de-collecte) · [Démarrer](#reproduire-le-projet) · [Colab](#explorer-dans-google-colab) · [Limites](#limites-et-précautions) · [Équipe](#équipe)
 
+> **Version préparée pour la remise :** cette branche `finalisation-remise-2026-11-08` contient le notebook exécuté et le rapport PDF. La branche `main` n'a pas été modifiée par cette finalisation.
+
 ## En bref
 
 Le flux Vélib’ publie une **photographie de l’état courant**, et non un historique. Le projet construit donc son propre historique d’instantanés GBFS horodatés en UTC, mesure leur couverture, puis évalue la cible « station vide exactement à +30 min » avec une séparation chronologique des données.
@@ -128,10 +130,10 @@ Utiliser `--private` si le groupe veut restreindre l’accès ; Colab devra alor
 
 ## Explorer dans Google Colab
 
-Pour ce dépôt public, ouvrir le [notebook principal dans Google Colab](https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/main/notebooks/Analyse_velib_V_07_11.ipynb). Cette adresse pointe vers la version GitHub utilisée pour le rapport.
+Pour ce dépôt public, ouvrir le [notebook principal dans Google Colab](https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/Analyse_velib_V_07_11.ipynb). Cette adresse pointe vers la version GitHub utilisée pour le rapport.
 
 ```text
-https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/main/notebooks/Analyse_velib_V_07_11.ipynb
+https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/Analyse_velib_V_07_11.ipynb
 ```
 
 Chaque membre peut exécuter le notebook et contribuer au même dépôt via branches et pull requests. Pour une copie modifiable sur Drive : **Fichier → Enregistrer une copie dans Drive → Partager**. La version GitHub reste la référence commune.
