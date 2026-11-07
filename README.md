@@ -23,22 +23,30 @@ Projet de groupe · DATA-IA-EXE710 · Télécom Paris · 2026–2027</p>
 
 > **Projet pédagogique indépendant.** Vélib’ Métropole fournit les données ouvertes étudiées ici ; l’usage de son nom et de son logo n’implique ni partenariat, ni validation, ni affiliation officielle avec le service. Les marques et logos restent la propriété de leurs titulaires.
 
-**Accès rapide :** [Méthode](#méthode-de-collecte) · [Architecture](#du-flux-à-la-question-scientifique) · [Démarrer](#reproduire-le-projet) · [Colab](#explorer-dans-google-colab) · [Limites](#limites-et-précautions) · [Équipe](#équipe)
+**Accès rapide :** [Résultats](#résultats-vérifiés) · [Méthode](#méthode-de-collecte) · [Démarrer](#reproduire-le-projet) · [Colab](#explorer-dans-google-colab) · [Limites](#limites-et-précautions) · [Équipe](#équipe)
 
 ## En bref
 
-Le flux Vélib’ publie une **photographie de l’état courant**, et non un historique. Le projet construit donc son propre historique d’instantanés GBFS horodatés en UTC, mesure leur couverture, puis prépare une exploration de la cible « station vide à +30 min ». Une prédiction éventuelle reste une **baseline exploratoire**, à évaluer dans l’ordre du temps.
+Le flux Vélib’ publie une **photographie de l’état courant**, et non un historique. Le projet construit donc son propre historique d’instantanés GBFS horodatés en UTC, mesure leur couverture, puis évalue la cible « station vide exactement à +30 min » avec une séparation chronologique des données.
 
 | Dimension | Choix documenté |
 | --- | --- |
 | Périmètre | Toutes les stations, sans échantillonnage géographique |
 | Cadence | Un passage programmé toutes les cinq minutes environ |
-| Horizon de collecte | 48 h minimum à auditer ; sept jours souhaités |
+| Période d'analyse retenue | 25 au 30 octobre 2026, six journées denses |
 | Historique | JSON gzip sous `data/raw/YYYY-MM-DD/` ; référentiel sous `data/reference/` |
 | Contrôle | Mesures par relevé sous `data/quality/` et audit sur 48 h |
 | Question | `num_bikes_available == 0` à +30 min, parmi les stations en service |
 
-> **État des résultats :** la collecte se poursuit. Le nombre d’instantanés, la couverture réelle et la validation des 48 h doivent être lus dans les données et l’audit ; les chiffres théoriques ci-dessous ne sont pas des résultats observés.
+> **Collecte après la période étudiée :** la cadence s'est dégradée après le 31 octobre. Au dernier relevé du 7 novembre à 15 h 47 UTC, l'audit de la fenêtre glissante de 48 h trouvait 9 instantanés sur 576 attendus (1,56 %), avec un trou maximal de 474 minutes : `complete_48h` était `false`. Ces relevés tardifs ne sont pas mélangés aux analyses ci-dessous.
+
+## Résultats vérifiés
+
+Le [notebook principal](notebooks/Analyse_velib_V_07_11.ipynb) a été exécuté intégralement sur la période figée du 25 au 30 octobre, avec **1 736 créneaux sur 1 740 attendus (99,8 %)**. Le changement d'heure du 25 octobre explique les 300 créneaux théoriques de cette journée. Les quatre trous observés durent dix minutes chacun.
+
+Parmi les stations en service analysées, **4,8 %** des observations sont vides et **18,3 %** ont au plus deux vélos. Sur le test chronologique, la forêt aléatoire obtient un **F1 de 0,563**, contre **0,562** pour la persistance. Cet écart de 0,001 ne démontre pas un gain robuste. La régression complémentaire du nombre de vélos a une erreur absolue moyenne de 1,47 vélo, contre 1,34 pour la règle « nombre inchangé ».
+
+Le [rapport PDF](docs/rapport-final.pdf) détaille la méthode, les graphiques, les résultats et les limites. Le notebook `03_Machine_Learning_Modeling.ipynb` est une **exploration distincte** : il prédit un passage à vide à n'importe quel moment des 30 minutes suivantes, parmi les stations initialement non vides. Ses scores ne sont pas comparables à ceux du notebook principal et ne sont pas utilisés dans le rapport.
 
 ## Du flux à la question scientifique
 
@@ -79,8 +87,11 @@ Le collecteur continue tant que le workflow reste activé. L’indicateur `compl
 | `data/reference/` | Caractéristiques des stations, rafraîchies quotidiennement quand la source répond |
 | `data/quality/YYYY-MM-DD.csv` | Nombre de stations, retard des signalements, stations vides et autres métriques par relevé |
 | `src/audit_collection.py` | Bilan de la fenêtre glissante de 48 h |
-| `notebooks/01_exploration_velib.ipynb` | Qualité, exploration, jointure et cible +30 min dans Colab |
+| `notebooks/Analyse_velib_V_07_11.ipynb` | Notebook principal exécuté : qualité, exploration et cible exacte à +30 min |
+| `notebooks/03_Machine_Learning_Modeling.ipynb` | Exploration d'une autre cible, hors résultats du rapport |
+| `docs/rapport-final.pdf` | Rapport de remise |
 | `tests/` | Tests unitaires sans connexion réseau |
+| `.github/workflows/tests.yml` | Exécution automatique des tests lors des changements hors données |
 
 ## Reproduire le projet
 
@@ -93,11 +104,10 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python -m unittest discover -s tests -v
-python -m src.collect_velib
 python -m src.audit_collection --hours 48
 ```
 
-L’exécution locale est **optionnelle** : la collecte planifiée tourne sur les serveurs GitHub et ne demande pas de garder un ordinateur allumé. Une collecte locale ponctuelle ne remplace pas 48 h de suivi continu.
+Ouvrir ensuite `notebooks/Analyse_velib_V_07_11.ipynb` et exécuter toutes les cellules dans l'ordre. Le notebook est volontairement limité aux dates du 25 au 30 octobre pour que ses résultats soient reproductibles. L'audit sur 48 h mesure la **fenêtre récente** et affiche donc `complete_48h: false` avec les dernières données ; cela n'invalide pas la période historique retenue. Une collecte locale ponctuelle est facultative : `python -m src.collect_velib` ajoute un nouvel instantané et demande un accès réseau.
 
 Pour lancer la première collecte sur GitHub, ouvrir **Actions → Collecte Vélib toutes les 5 minutes → Run workflow**, puis vérifier les fichiers sous `data/raw/`. Le workflow programmé doit figurer sur la branche par défaut `main`. Si le commit échoue faute de droits, vérifier les permissions GitHub Actions du dépôt et les règles de branche.
 
@@ -118,13 +128,13 @@ Utiliser `--private` si le groupe veut restreindre l’accès ; Colab devra alor
 
 ## Explorer dans Google Colab
 
-Pour ce dépôt public, ouvrir le [notebook d’exploration dans Colab](https://colab.research.google.com/drive/1mU9esIdrviEbBb6u-mb70l7moLGASALp?usp=drive_link). L’adresse générique est :
+Pour ce dépôt public, ouvrir le [notebook principal dans Google Colab](https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/main/notebooks/Analyse_velib_V_07_11.ipynb). Cette adresse pointe vers la version GitHub utilisée pour le rapport.
 
 ```text
-https://colab.research.google.com/drive/1mU9esIdrviEbBb6u-mb70l7moLGASALp?usp=drive_link
+https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/main/notebooks/Analyse_velib_V_07_11.ipynb
 ```
 
-Chaque membre peut exécuter le notebook et contribuer au même dépôt via branches et pull requests. Pour une copie modifiable sur Drive : **Fichier → Enregistrer une copie dans Drive → Partager**. Éviter les copies divergentes et privilégier GitHub pour les versions officielles du projet.
+Chaque membre peut exécuter le notebook et contribuer au même dépôt via branches et pull requests. Pour une copie modifiable sur Drive : **Fichier → Enregistrer une copie dans Drive → Partager**. La version GitHub reste la référence commune.
 
 ## Sources des données et des visuels
 
@@ -157,4 +167,4 @@ Les variables `is_installed`, `is_renting` et `is_returning` du flux GBFS Vélib
 
 ## Livrable
 
-Code GitHub, notebook exécutable, graphiques commentés, limites du jeu de données, sources et méthode de collecte. Date de remise : **08 novembre 2026 à 18 h**.
+Code GitHub, [notebook principal exécuté](notebooks/Analyse_velib_V_07_11.ipynb), [rapport PDF](docs/rapport-final.pdf), graphiques commentés, limites du jeu de données, sources et méthode de collecte. Date de remise : **08 novembre 2026 à 18 h**.
