@@ -157,4 +157,4 @@ Les variables `is_installed`, `is_renting` et `is_returning` du flux GBFS Vélib
 
 ## Livrable
 
-Code GitHub, notebook exécutable, graphiques commentés, limites du jeu de données, sources et méthode de collecte. Date de remise annoncée dans la fiche du module : **26 octobre 2026 à 18 h**.
+Code GitHub, notebook exécutable, graphiques commentés, limites du jeu de données, sources et méthode de collecte. Date de remise : **08 novembre 2026 à 18 h**.
