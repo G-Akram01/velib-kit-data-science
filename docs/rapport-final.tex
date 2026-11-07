@@ -45,7 +45,7 @@
 \vspace{7mm}
 {\Large Une évaluation temporelle fondée sur les relevés réels du 25 au 30 octobre 2026\par}
 \vspace{12mm}
-\callout{\textbf{Réponse courte.} La cible « station en service et sans vélo exactement à +30 minutes » est mesurable lorsque les deux relevés existent. Sur le test chronologique, la forêt aléatoire atteint un F1 de \textbf{0,563}, contre \textbf{0,562} pour la simple persistance de l'état actuel. Ce gain de 0,001 ne permet pas d'affirmer que le modèle améliore la prévision. Parmi les stations encore pourvues de vélos, le rappel n'est que de \textbf{10,4\,\%} pour la forêt. Il s'agit d'une preuve de concept, pas d'un système d'alerte fiable.}
+\callout{\textbf{Réponse courte.} La cible « station en service et sans vélo exactement à +30 minutes » est mesurable lorsque les deux relevés existent. Sur le test chronologique, la forêt aléatoire atteint un F1 de \textbf{0,564}, contre \textbf{0,562} pour la simple persistance de l'état actuel. Ce gain de 0,002 ne permet pas d'affirmer que le modèle améliore la prévision. Parmi les stations encore pourvues de vélos, le rappel n'est que de \textbf{10,0\,\%} pour la forêt. Il s'agit d'une preuve de concept, pas d'un système d'alerte fiable.}
 \vfill
 {\sffamily\bfseries Auteurs\par}
 Akram GHAZLOUNY · Youssef EJJIYAR · El Mehdi BEN YAHYA · Ahmed HUSSEIN\\
@@ -111,14 +111,14 @@ L'ensemble est découpé dans l'ordre du temps : entraînement jusqu'au 28 octob
 Modèle & Précision & Rappel & F1 & PR-AUC\\
 \midrule
 Persistance & 0,560 & 0,565 & 0,562 & --\\
-Régression logistique & 0,499 & 0,616 & 0,551 & 0,526\\
-Forêt aléatoire & 0,549 & 0,578 & 0,563 & 0,581\\
+Régression logistique & 0,526 & 0,577 & 0,550 & 0,526\\
+Forêt aléatoire & 0,550 & 0,579 & 0,564 & 0,582\\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \Needspace{5\baselineskip}
-La forêt aléatoire produit 16\,001 vrais positifs, 13\,142 faux positifs et 11\,706 faux négatifs, pour 599\,342 vrais négatifs. Elle manque donc plus de 11\,000 événements « vide » dans ce seul test, malgré un F1 global voisin de la persistance. La PR-AUC mesure le classement des risques ; elle ne transforme pas à elle seule ces prédictions en alertes utiles à un seuil choisi.
+La forêt aléatoire produit 16\,034 vrais positifs, 13\,123 faux positifs et 11\,673 faux négatifs, pour 599\,361 vrais négatifs. Elle manque donc plus de 11\,000 événements « vide » dans ce seul test, malgré un F1 global voisin de la persistance. La PR-AUC mesure le classement des risques ; elle ne transforme pas à elle seule ces prédictions en alertes utiles à un seuil choisi.
 
 \begin{center}
 \textbf{Sous-ensemble initialement non vide : passage à vide à +30 min}\par\smallskip
@@ -127,13 +127,13 @@ La forêt aléatoire produit 16\,001 vrais positifs, 13\,142 faux positifs et 11
 Modèle & Précision & Rappel & F1 & PR-AUC\\
 \midrule
 Persistance & 0,000 & 0,000 & 0,000 & --\\
-Régression logistique & 0,247 & 0,143 & 0,181 & 0,184\\
-Forêt aléatoire & 0,340 & 0,104 & 0,159 & 0,220\\
+Régression logistique & 0,253 & 0,084 & 0,126 & 0,185\\
+Forêt aléatoire & 0,342 & 0,100 & 0,155 & 0,219\\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Cette seconde table répond mieux au besoin d'anticipation : la forêt prédit correctement environ un tiers de ses alertes, mais ne repère qu'environ un passage à vide sur dix. La régression logistique en repère un peu plus, avec davantage de fausses alertes. Les résultats sont issus d'une seule coupure temporelle et de six journées d'automne ; ils ne mesurent pas la stabilité entre semaines ou en période sans manifestations.
+Cette seconde table répond mieux au besoin d'anticipation : la forêt prédit correctement environ un tiers de ses alertes, mais ne repère qu'environ un passage à vide sur dix. La régression logistique en repère encore moins, avec une précision plus faible. Les résultats sont issus d'une seule coupure temporelle et de six journées d'automne ; ils ne mesurent pas la stabilité entre semaines ou en période sans manifestations.
 
 \begin{figure}[ht]
 \centering\includegraphics[width=0.92\linewidth]{figures/precision-rappel.png}
@@ -145,14 +145,14 @@ Cette seconde table répond mieux au besoin d'anticipation : la forêt prédit c
 
 \callout{\textbf{Conclusion.} Oui, le projet sait \emph{construire} une cible exacte à +30 minutes et évaluer des modèles sur des relevés réels. Non, il ne démontre pas aujourd'hui une prévision fiable des stations qui vont se vider : le gain global de la forêt sur la persistance est négligeable et le rappel des nouveaux passages à vide est faible. Les stations fermées dans les 30 minutes suivantes sont hors du champ de l'évaluation.}
 
-Une régression complémentaire du nombre de vélos obtient une erreur absolue moyenne de 1,47 vélo, contre 1,34 pour la règle « nombre de vélos inchangé ». Elle n'apporte donc pas de gain établi. Le notebook \texttt{03\_Machine\_Learning\_Modeling.ipynb} étudie une cible différente (« à un moment quelconque des 30 prochaines minutes ») ; ses scores ne sont pas comparés aux chiffres ci-dessus.
+Une régression complémentaire du nombre de vélos obtient une erreur absolue moyenne de 1,46 vélo, contre 1,34 pour la règle « nombre de vélos inchangé ». Elle n'apporte donc pas de gain établi. Le notebook \texttt{03\_Machine\_Learning\_Modeling.ipynb} étudie une cible différente (« à un moment quelconque des 30 prochaines minutes ») ; ses scores ne sont pas comparés aux chiffres ci-dessus.
 
 \subsection{Limites qui orientent la suite}
 \begin{itemize}
 \item \textbf{Période et incidents.} Six jours, un seul dimanche et deux épisodes de fermeture encadrant la période ne suffisent pas à conclure sur un usage ordinaire, une saison ou l'effet des manifestations.
 \item \textbf{Sélection future.} L'exclusion des stations fermées à $t+30$ utilise l'avenir pour définir la population évaluée. Elle est licite pour une analyse conditionnelle, mais ne peut être appliquée telle quelle à une alerte en temps réel.
 \item \textbf{Mesure.} Le flux photographie des disponibilités, sans identifier les trajets ni la cause des fermetures. \texttt{last\_reported} n'est pas à lui seul une mesure de fraîcheur des compteurs.
-\item \textbf{Généralisation.} Une seule coupure de test et une collecte devenue intermittente après le 31 octobre ne permettent pas d'estimer la variabilité des performances.
+\item \textbf{Généralisation.} Une seule coupure de test, un seul tirage de 300\,000 exemples d'entraînement et une collecte devenue intermittente après le 31 octobre ne permettent pas d'estimer la variabilité des performances.
 \end{itemize}
 
 \subsection{Priorités après la remise}

@@ -2,6 +2,8 @@
 
 Tableau examiné : [Vélib — Planning de livraison](https://github.com/users/G-Akram01/projects/2). La colonne du tableau et l'état de l'issue ne sont pas synchronisés automatiquement : l'issue #1 est déjà fermée alors que sa carte reste en « Review ». Les avis ci-dessous portent sur les **livrables de la branche de remise**, pas sur `main`.
 
+Les dates limites affichées sur plusieurs cartes vont du 25 au 30 octobre et ne reflètent pas la remise du **8 novembre 2026** indiquée dans le README. La carte #7 prévoit encore le 30 octobre. Le format PDF et le canal « par mail » sont désormais connus ; l'heure « 18 h » indiquée dans le README et le destinataire doivent être confirmés par le groupe avant l'envoi.
+
 | Issue | Carte et état observé dans le tableau | Vérification et preuve | Statut justifié |
 | --- | --- | --- | --- |
 | [#1](https://github.com/G-Akram01/velib-kit-data-science/issues/1) Configuration GitHub & environnement | Review ; issue fermée | Dépôt, workflows, collecteur et Colab existent ; la note de gouvernance comble « catalogue & documentation ». Cependant la collecte récente n'atteint que 9/576 relevés sur 48 h et le fonctionnement durable du pipeline reste à rétablir. | **Review** |
@@ -20,7 +22,7 @@ Tableau examiné : [Vélib — Planning de livraison](https://github.com/users/G
 ## Priorités avant l'envoi du 8 novembre
 
 1. **Remise :** le groupe vérifie les noms, la consigne exacte et le destinataire du mail, puis envoie le PDF et les liens de la branche/notebook. Ne marquer #7 « Done » qu'après confirmation de l'envoi.
-2. **Qualité de la restitution :** présenter le résultat comme une preuve de concept conditionnelle. La forêt aléatoire ne gagne que 0,001 de F1 sur la persistance et repère peu de nouveaux passages à vide ; les fermetures futures sont hors cible.
+2. **Qualité de la restitution :** présenter le résultat comme une preuve de concept conditionnelle. La forêt aléatoire ne gagne que 0,002 de F1 sur la persistance et repère peu de nouveaux passages à vide ; les fermetures futures sont hors cible.
 3. **Reproductibilité :** conserver le test local et le succès GitHub Actions comme preuves ; ne pas annoncer une validation Colab intégrale tant qu'elle n'est pas effectuée dans une session propre.
 4. **Collecte et géographie :** rétablir la cadence récente et compléter la carte interactive après la remise si ces éléments sont exigés ; ils ne doivent pas être marqués terminés aujourd'hui.
 
