@@ -50,7 +50,7 @@ Parmi les stations en service analysées, **4,8 %** des observations sont vides 
 
 Le [rapport PDF](docs/rapport-final.pdf) détaille la méthode, les graphiques, les résultats et les limites. Le notebook `03_Machine_Learning_Modeling.ipynb` est une **exploration distincte** : il prédit un passage à vide à n'importe quel moment des 30 minutes suivantes, parmi les stations initialement non vides. Ses scores ne sont pas comparables à ceux du notebook principal et ne sont pas utilisés dans le rapport.
 
-L'[état vérifié des douze tâches du tableau GitHub Projects](docs/etat-projet.md) distingue les livrables terminés de ceux encore à valider ou à compléter.
+Les statuts des douze tâches sont tenus directement dans le [tableau GitHub Projects](https://github.com/users/G-Akram01/projects/2/views/1).
 
 ## Réponse à la question
 
@@ -101,7 +101,6 @@ Le collecteur continue tant que le workflow reste activé. L’indicateur `compl
 | `notebooks/03_Machine_Learning_Modeling.ipynb` | Exploration d'une autre cible, hors résultats du rapport |
 | `docs/rapport-final.tex` et `docs/rapport-final.pdf` | Source LaTeX et rapport de remise compilé |
 | `docs/gouvernance-donnees.md` | Provenance, dictionnaire, qualité, droits, biais et conservation |
-| `docs/etat-projet.md` | Contrôle des douze tâches et priorités de remise |
 | `tests/` | Tests unitaires sans connexion réseau |
 | `.github/workflows/tests.yml` | Exécution automatique des tests lors des changements hors données |
 
