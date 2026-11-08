@@ -23,7 +23,7 @@ Projet de groupe · DATA-IA-EXE710 · Télécom Paris · 2026–2027</p>
 
 > **Projet pédagogique indépendant.** Vélib’ Métropole fournit les données ouvertes étudiées ici ; l’usage de son nom et de son logo n’implique ni partenariat, ni validation, ni affiliation officielle avec le service. Les marques et logos restent la propriété de leurs titulaires.
 
-**Accès rapide :** [Réponse à la question](#réponse-à-la-question) · [Résultats](#résultats-vérifiés) · [Gouvernance des données](docs/gouvernance-donnees.md) · [Démarrer](#reproduire-le-projet) · [Colab](#explorer-dans-google-colab) · [Limites](#limites-et-précautions) · [Équipe](#équipe)
+**Accès rapide :** [Réponse à la question](#réponse-à-la-question) · [Résultats](#résultats-vérifiés) · [Gouvernance des données](docs/gouvernance-donnees.md) · [Démarrer](#reproduire-le-projet) · [Colab](#explorer-dans-google-colab) · [Carte interactive](https://g-akram01.github.io/velib-kit-data-science/carte-stations.html) · [Limites](#limites-et-précautions) · [Équipe](#équipe)
 
 > **Version finale :** le notebook consolidé et le rapport PDF sont disponibles sur la branche principale `main`.
 
@@ -48,7 +48,7 @@ Le [notebook unique](notebooks/01_analyse_finale_velib.ipynb) a été exécuté 
 
 Parmi les stations en service analysées, **4,8 %** des observations sont vides et **18,3 %** ont au plus deux vélos. Sur le test chronologique, la forêt aléatoire obtient un **F1 de 0,570**, contre **0,562** pour la persistance. Cet écart de 0,008, observé sur une seule coupure temporelle, ne démontre pas un gain robuste. La régression complémentaire du nombre de vélos a une erreur absolue moyenne de 1,45 vélo, contre 1,34 pour la règle « nombre inchangé ».
 
-Le [rapport PDF](docs/rapport-final.pdf) détaille la méthode, les graphiques, les résultats et les limites. Le dossier `notebooks/` contient le notebook final ; les versions précédentes sont conservées dans [`notebooks/archive/`](notebooks/archive/) uniquement à titre d'archives. Une [carte interactive des stations](docs/carte-stations.html) complète la carte statique du rapport ; ses couches distinguent les stations souvent vides des autres.
+Le [rapport PDF](docs/rapport-final.pdf) détaille la méthode, les graphiques, les résultats et les limites. Le dossier `notebooks/` contient le notebook final ; les versions précédentes sont conservées dans [`notebooks/archive/`](notebooks/archive/) uniquement à titre d'archives. Une [carte interactive des stations](https://g-akram01.github.io/velib-kit-data-science/carte-stations.html) complète la carte statique du rapport ; ses couches distinguent les stations souvent vides des autres.
 
 Les statuts des douze tâches sont tenus directement dans le [tableau GitHub Projects](https://github.com/users/G-Akram01/projects/2/views/1).
 
