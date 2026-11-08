@@ -45,14 +45,14 @@
 \vspace{7mm}
 {\Large Une évaluation temporelle fondée sur les relevés réels du 25 au 30 octobre 2026\par}
 \vspace{12mm}
-\callout{\textbf{Réponse courte.} La cible « station en service et sans vélo exactement à +30 minutes » est mesurable lorsque les deux relevés existent. Sur le test chronologique, la forêt aléatoire atteint un F1 de \textbf{0,570}, contre \textbf{0,562} pour la simple persistance de l'état actuel. Ce gain de 0,008, sur une seule coupure, ne permet pas d'affirmer que le modèle améliore durablement la prévision. Parmi les stations encore pourvues de vélos, le rappel n'est que de \textbf{10,4\,\%} pour la forêt. Il s'agit d'une preuve de concept, pas d'un système d'alerte fiable.}
+\callout{\textbf{Réponse courte.} La cible « station en service et sans vélo exactement à +30 minutes » est mesurable lorsque les deux relevés existent. Sur le test chronologique, la forêt aléatoire atteint un F1 de \textbf{0,570}, contre \textbf{0,562} pour la simple persistance de l'état actuel. Ce gain de 0,008, sur une seule coupure, ne permet pas d'affirmer que le modèle améliore durablement la prévision. Parmi les stations encore pourvues de vélos, le rappel n'est que de \textbf{10,4\,\%} pour la forêt.}
 \vfill
 {\sffamily\bfseries Auteurs\par}
 Akram GHAZLOUNY · Youssef EJJIYAR · El Mehdi BEN YAHYA · Ahmed HUSSEIN\\
 \vspace{4mm}
-\textbf{Version de remise :} \href{https://github.com/G-Akram01/velib-kit-data-science/tree/finalisation-remise-2026-11-08}{branche \texttt{finalisation-remise-2026-11-08}}\\
-\textbf{Notebook unique :} \href{https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/01_exploration_velib.ipynb}{ouvrir la version de remise dans Google Colab}\\
-\textbf{Date de remise annoncée dans le dépôt :} 8 novembre 2026 ; heure et destinataire à confirmer par le groupe.
+\textbf{Dépôt GitHub (main) :} \href{https://github.com/G-Akram01/velib-kit-data-science}{ouvrir le dépôt principal}\\
+\textbf{Notebook unique :} \href{https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/main/notebooks/01_analyse_finale_velib.ipynb}{ouvrir la version de remise dans Google Colab}\\
+\textbf{Date de remise :} 8 novembre 2026.
 \newpage
 
 \section{Question, périmètre et critères de réponse}
@@ -65,7 +65,7 @@ Le notebook principal retient uniquement les couples station--instant pour lesqu
 
 \section{Données, qualité et gouvernance}
 
-Le collecteur conserve les flux publics GBFS \texttt{station\_status.json} et \texttt{station\_information.json} de Vélib' Métropole sous forme de JSON compressé, avec l'heure UTC de collecte et l'URL source. Le référentiel utilisé pour la jointure est figé au 25 octobre 2026. Le catalogue Paris Data décrit les données de disponibilité comme dynamiques et indique Smovengo/Syndicat Autolib' Vélib' Métropole comme producteur ; sa fiche affiche la licence ODbL pour \emph{ce jeu de données catalogué}.\source{1} Les conditions applicables directement au flux GBFS doivent être vérifiées avant une redistribution autonome. L'attribution de la source et la date de consultation sont conservées dans la \href{https://github.com/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/docs/gouvernance-donnees.md}{note de gouvernance et le dictionnaire des variables}.
+Le collecteur conserve les flux publics GBFS \texttt{station\_status.json} et \texttt{station\_information.json} de Vélib' Métropole sous forme de JSON compressé, avec l'heure UTC de collecte et l'URL source. Le référentiel utilisé pour la jointure est figé au 25 octobre 2026. Le catalogue Paris Data décrit les données de disponibilité comme dynamiques et indique Smovengo/Syndicat Autolib' Vélib' Métropole comme producteur ; sa fiche affiche la licence ODbL pour \emph{ce jeu de données catalogué}.\source{1} Les conditions applicables directement au flux GBFS doivent être vérifiées avant une redistribution autonome. L'attribution de la source et la date de consultation sont conservées dans la \href{https://github.com/G-Akram01/velib-kit-data-science/blob/main/docs/gouvernance-donnees.md}{note de gouvernance et le dictionnaire des variables}.
 
 \begin{center}
 \begin{tabularx}{\linewidth}{@{}Xr@{}}
@@ -174,13 +174,13 @@ Une régression complémentaire du nombre de vélos, dans le même notebook, obt
 
 \section{Reproduction et livrables}
 
-Le dépôt public contient les instantanés, les contrôles qualité, le collecteur, les tests, le notebook unique exécuté, la carte HTML et la source de ce rapport. Pour reproduire les résultats, cloner le dépôt, sélectionner la branche de remise, installer les dépendances de \texttt{requirements.txt}, lancer les tests unitaires, puis exécuter le notebook dans l'ordre. Depuis la racine du dépôt, compiler la source LaTeX avec Tectonic et les trois figures extraites du notebook. Les commandes exactes figurent dans le README ; les règles de provenance, nettoyage et conservation dans la note de gouvernance.
+Le dépôt public contient les instantanés, les contrôles qualité, le collecteur, les tests, le notebook unique exécuté, la carte HTML et la source de ce rapport. Pour reproduire les résultats, cloner le dépôt, utiliser la branche \texttt{main}, installer les dépendances de \texttt{requirements.txt}, lancer les tests unitaires, puis exécuter le notebook dans l'ordre. Depuis la racine du dépôt, compiler la source LaTeX avec Tectonic et les trois figures extraites du notebook. Les commandes exactes figurent dans le README ; les règles de provenance, nettoyage et conservation dans la note de gouvernance.
 
 Le 8 novembre, les 53 cellules de code ont été exécutées jusqu'au bout dans un environnement Google Colab neuf, sans erreur. Une seconde exécution intégrale dans un environnement Python 3.12 propre et les sept tests unitaires ont également réussi. La revue par les quatre membres et la transmission par mail restent à faire par le groupe.
 
 \section{État de consolidation du projet}
 
-Le suivi des douze tâches est tenu directement dans le tableau GitHub Projects « Vélib — Planning de livraison ». Les statuts ci-dessous correspondent aux cartes mises à jour le 8 novembre 2026, sur la base des preuves présentes dans la branche de remise.
+Le suivi des douze tâches est tenu directement dans le tableau GitHub Projects « Vélib — Planning de livraison ». Les statuts ci-dessous correspondent aux cartes mises à jour le 8 novembre 2026, sur la base des preuves présentes sur la branche \texttt{main}.
 
 \begin{center}
 \begin{tabularx}{\linewidth}{@{}lX@{}}
@@ -201,7 +201,7 @@ Le résultat négatif du modèle n'empêche pas de considérer la \emph{preuve d
 \item Paris Data, \href{https://opendata.paris.fr/explore/dataset/velib-disponibilite-en-temps-reel/information/}{« Vélib -- Vélos et bornes -- Disponibilité temps réel »}, consulté le 7 novembre 2026.
 \item Ville de Paris, \href{https://www.paris.fr/?photo=26-12}{fil d'information du 23 octobre 2026 : fermetures de stations Vélib' pour les manifestations du 24 octobre}, consulté le 7 novembre 2026.
 \item Vélib' Métropole, \href{https://blog.velib-metropole.fr/fermeture-temporaire-de-stations-velib-a-loccasion-des-manifestations-2/}{« Fermeture temporaire de stations Vélib' à l'occasion des manifestations »}, annonce relative au 31 octobre 2026, consultée le 7 novembre 2026.
-\item Dépôt du groupe, \href{https://github.com/G-Akram01/velib-kit-data-science/tree/finalisation-remise-2026-11-08}{\texttt{G-Akram01/velib-kit-data-science}, branche de remise} ; notebook et données archivées consultés le 7 novembre 2026.
+\item Dépôt du groupe, \href{https://github.com/G-Akram01/velib-kit-data-science}{\texttt{G-Akram01/velib-kit-data-science}, branche \texttt{main}} ; notebook et données archivées consultés le 7 novembre 2026.
 \end{enumerate}
 
 \end{document}
