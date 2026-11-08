@@ -146,6 +146,8 @@ Utiliser `--private` si le groupe veut restreindre l’accès ; Colab devra alor
 
 Pour ce dépôt public, ouvrir le [notebook unique dans Google Colab](https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/01_exploration_velib.ipynb). Cette adresse pointe vers la version GitHub utilisée pour le rapport.
 
+Le 8 novembre 2026, ses 53 cellules de code ont été réexécutées dans un environnement Colab neuf, sans erreur. Le F1 de la forêt aléatoire reste de 0,57 et l'erreur de la régression de 1,45 vélo. Les versions des bibliothèques autorisées dans `requirements.txt` peuvent faire varier les chiffres détaillés au millième ; le rapport indique l'environnement utilisé pour ses tables.
+
 ```text
 https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/01_exploration_velib.ipynb
 ```

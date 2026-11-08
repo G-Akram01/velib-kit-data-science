@@ -129,6 +129,8 @@ Forêt aléatoire & 0,550 & 0,590 & 0,570 & 0,585\\
 \Needspace{5\baselineskip}
 La forêt aléatoire produit 16\,354 vrais positifs, 13\,364 faux positifs et 11\,353 faux négatifs, pour 599\,120 vrais négatifs. Elle manque donc plus de 11\,000 événements « vide » dans ce seul test, malgré un F1 global voisin de la persistance. La PR-AUC mesure le classement des risques ; elle ne transforme pas à elle seule ces prédictions en alertes utiles à un seuil choisi.
 
+Ces valeurs détaillées proviennent d'une exécution avec NumPy 2.5.4, pandas 3.1.1 et scikit-learn 1.9.1. Une exécution intégrale dans Google Colab le 8 novembre a retrouvé le F1 de la forêt à 0,57 et l'erreur de régression à 1,45 vélo ; sa précision et son rappel de la forêt, arrondis à deux décimales, sont respectivement 0,57 et 0,56. Les versions autorisées par \texttt{requirements.txt} ne garantissent donc pas les mêmes valeurs au millième dans tous les environnements. La conclusion ne change pas.
+
 \begin{center}
 \textbf{Sous-ensemble initialement non vide : passage à vide à +30 min}\par\smallskip
 \begin{tabular}{@{}lrrrr@{}}
@@ -174,7 +176,7 @@ Une régression complémentaire du nombre de vélos, dans le même notebook, obt
 
 Le dépôt public contient les instantanés, les contrôles qualité, le collecteur, les tests, le notebook unique exécuté, la carte HTML et la source de ce rapport. Pour reproduire les résultats, cloner le dépôt, sélectionner la branche de remise, installer les dépendances de \texttt{requirements.txt}, lancer les tests unitaires, puis exécuter le notebook dans l'ordre. Depuis la racine du dépôt, compiler la source LaTeX avec Tectonic et les trois figures extraites du notebook. Les commandes exactes figurent dans le README ; les règles de provenance, nettoyage et conservation dans la note de gouvernance.
 
-Une exécution Colab indépendante et une revue par les quatre membres restent nécessaires avant la transmission par mail.
+Le 8 novembre, les 53 cellules de code ont été exécutées jusqu'au bout dans un environnement Google Colab neuf, sans erreur. Une seconde exécution intégrale dans un environnement Python 3.12 propre et les sept tests unitaires ont également réussi. La revue par les quatre membres et la transmission par mail restent à faire par le groupe.
 
 \section{État de consolidation du projet}
 
@@ -185,8 +187,8 @@ Le suivi des douze tâches est tenu directement dans le tableau GitHub Projects 
 \toprule
 \textbf{Statut Kanban} & \textbf{Tâches et raison principale}\\
 \midrule
-Done & \#2 qualité, \#3 préparation, \#4 exploration, \#5 preuve de concept à +30 min, \#8 variables historiques et baseline, \#9 évaluation, \#10 documentation, \#12 carte interactive.\\
-Review & \#1 collecte récente dégradée ; \#6 exécution Colab propre et revue collective non prouvées ; \#11 reproduction Colab complète non prouvée.\\
+Done & \#2 qualité, \#3 préparation, \#4 exploration, \#5 preuve de concept à +30 min, \#6 notebook intégré et exécuté dans Colab, \#8 variables historiques et baseline, \#9 évaluation, \#10 documentation, \#11 tests et reproductibilité, \#12 carte interactive.\\
+Review & \#1 collecte récente dégradée.\\
 Todo & \#7 validation du groupe et transmission effective par mail.\\
 \bottomrule
 \end{tabularx}
