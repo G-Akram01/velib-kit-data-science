@@ -1,6 +1,6 @@
 # Gouvernance et dictionnaire des données
 
-**Projet :** Vélib’ Métropole — Kit Data Science · **version :** 7 novembre 2026  
+**Projet :** Vélib’ Métropole — Kit Data Science · **version :** 25 octobre 2026  
 **Périmètre analytique figé :** 25–30 octobre 2026, heure de Paris. Cette note décrit les données réellement utilisées par le notebook principal et les règles nécessaires à leur réutilisation.
 
 ## 1. Responsabilité, provenance et droits
