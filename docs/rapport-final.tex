@@ -25,7 +25,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\footnotesize\sffamily Vélib' Métropole · Kit Data Science}
-\fancyhead[R]{\footnotesize\sffamily 7 novembre 2026}
+\fancyhead[R]{\footnotesize\sffamily 8 novembre 2026}
 \fancyfoot[C]{\footnotesize\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \setlength{\headheight}{14pt}
@@ -45,14 +45,14 @@
 \vspace{7mm}
 {\Large Une évaluation temporelle fondée sur les relevés réels du 25 au 30 octobre 2026\par}
 \vspace{12mm}
-\callout{\textbf{Réponse courte.} La cible « station en service et sans vélo exactement à +30 minutes » est mesurable lorsque les deux relevés existent. Sur le test chronologique, la forêt aléatoire atteint un F1 de \textbf{0,564}, contre \textbf{0,562} pour la simple persistance de l'état actuel. Ce gain de 0,002 ne permet pas d'affirmer que le modèle améliore la prévision. Parmi les stations encore pourvues de vélos, le rappel n'est que de \textbf{10,0\,\%} pour la forêt. Il s'agit d'une preuve de concept, pas d'un système d'alerte fiable.}
+\callout{\textbf{Réponse courte.} La cible « station en service et sans vélo exactement à +30 minutes » est mesurable lorsque les deux relevés existent. Sur le test chronologique, la forêt aléatoire atteint un F1 de \textbf{0,570}, contre \textbf{0,562} pour la simple persistance de l'état actuel. Ce gain de 0,008, sur une seule coupure, ne permet pas d'affirmer que le modèle améliore durablement la prévision. Parmi les stations encore pourvues de vélos, le rappel n'est que de \textbf{10,4\,\%} pour la forêt. Il s'agit d'une preuve de concept, pas d'un système d'alerte fiable.}
 \vfill
 {\sffamily\bfseries Auteurs\par}
 Akram GHAZLOUNY · Youssef EJJIYAR · El Mehdi BEN YAHYA · Ahmed HUSSEIN\\
 \vspace{4mm}
 \textbf{Version de remise :} \href{https://github.com/G-Akram01/velib-kit-data-science/tree/finalisation-remise-2026-11-08}{branche \texttt{finalisation-remise-2026-11-08}}\\
-\textbf{Notebook :} \href{https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/Analyse_velib_V_07_11.ipynb}{ouvrir la version vérifiée dans Google Colab}\\
-\textbf{Date de remise annoncée dans le dépôt :} 8 novembre 2026, 18 h (heure de Paris).
+\textbf{Notebook unique :} \href{https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/01_exploration_velib.ipynb}{ouvrir la version de remise dans Google Colab}\\
+\textbf{Date de remise annoncée dans le dépôt :} 8 novembre 2026 ; heure et destinataire à confirmer par le groupe.
 \newpage
 
 \section{Question, périmètre et critères de réponse}
@@ -98,9 +98,18 @@ Dans les relevés du projet, les stations avec \texttt{is\_renting != 1} sont en
 \caption{Stations où la location est impossible dans les instantanés conservés. La courbe ne fournit pas la cause de l'indisponibilité. Source : calculs du notebook sur les flux GBFS archivés.}
 \end{figure}
 
+\section{Géographie descriptive}
+
+Le notebook cartographie 1\,498 stations ayant des observations en service et des coordonnées valides. La carte interactive \texttt{docs/carte-stations.html} permet d'afficher séparément les stations vides pendant au moins 20\,\% de leurs observations et les autres ; les fenêtres indiquent le nombre moyen de vélos. Dans les quatre quadrants définis par les médianes de latitude et longitude, le Nord-Est a une part moyenne de temps vide de 8,0\,\% contre 2,9\,\% pour le Sud-Est. Ces secteurs ne sont pas des divisions administratives, et six jours perturbés ne démontrent pas un effet causal de la localisation.
+
+\begin{figure}[ht]
+\centering\includegraphics[width=0.66\linewidth]{figures/geographie.png}
+\caption{Part du temps vide par station en service, du 25 au 30 octobre. Les points sont issus des relevés archivés ; la couleur représente une fréquence descriptive.}
+\end{figure}
+
 \section{Méthode de prévision et évaluation}
 
-Les variables explicatives décrivent l'état présent (vélos, bornes libres, types, taux de remplissage), les variations à 15 et 30 minutes passées, l'heure, le week-end, les coordonnées et la fréquence historique de vide de chaque station. Cette dernière est calculée sur l'entraînement seul. Les valeurs historiques absentes sont remplacées par zéro : cette simplification peut masquer une variation inconnue. Aucune variable mesurée après $t$ n'entre dans les modèles.
+Les variables explicatives décrivent l'état présent (vélos, bornes libres, types, taux de remplissage), les variations à 15 et 30 minutes passées, une moyenne mobile sur les 30 minutes précédentes, l'heure, le jour, la période du jour, les coordonnées et la fréquence historique de vide de chaque station. Cette dernière est calculée sur l'entraînement seul. Une fenêtre mobile de moins de quatre relevés est signalée et remplacée par le compteur actuel ; une variation passée absente est imputée à zéro, ce qui peut masquer une variation inconnue. Aucune variable mesurée après $t$ n'entre dans les modèles.
 
 L'ensemble est découpé dans l'ordre du temps : entraînement jusqu'au 28 octobre à 13 h 05, validation du 28 octobre à 13 h 40 au 29 octobre à 10 h 45, test du 29 octobre à 11 h 20 au 30 octobre à 23 h 25. Un écart de 30 minutes avant chaque coupure empêche les étiquettes d'une période de déborder sur la suivante. Le test comporte 640\,191 couples station--instant ; les seuils des classifieurs sont choisis sur la validation uniquement. L'entraînement des deux modèles utilise un échantillon reproductible de 300\,000 lignes. Le comparateur « persistance » prédit qu'une station vide maintenant sera encore vide à +30 minutes.
 
@@ -111,14 +120,14 @@ L'ensemble est découpé dans l'ordre du temps : entraînement jusqu'au 28 octob
 Modèle & Précision & Rappel & F1 & PR-AUC\\
 \midrule
 Persistance & 0,560 & 0,565 & 0,562 & --\\
-Régression logistique & 0,526 & 0,577 & 0,550 & 0,526\\
-Forêt aléatoire & 0,550 & 0,579 & 0,564 & 0,582\\
+Régression logistique & 0,502 & 0,615 & 0,553 & 0,527\\
+Forêt aléatoire & 0,550 & 0,590 & 0,570 & 0,585\\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \Needspace{5\baselineskip}
-La forêt aléatoire produit 16\,034 vrais positifs, 13\,123 faux positifs et 11\,673 faux négatifs, pour 599\,361 vrais négatifs. Elle manque donc plus de 11\,000 événements « vide » dans ce seul test, malgré un F1 global voisin de la persistance. La PR-AUC mesure le classement des risques ; elle ne transforme pas à elle seule ces prédictions en alertes utiles à un seuil choisi.
+La forêt aléatoire produit 16\,354 vrais positifs, 13\,364 faux positifs et 11\,353 faux négatifs, pour 599\,120 vrais négatifs. Elle manque donc plus de 11\,000 événements « vide » dans ce seul test, malgré un F1 global voisin de la persistance. La PR-AUC mesure le classement des risques ; elle ne transforme pas à elle seule ces prédictions en alertes utiles à un seuil choisi.
 
 \begin{center}
 \textbf{Sous-ensemble initialement non vide : passage à vide à +30 min}\par\smallskip
@@ -127,25 +136,24 @@ La forêt aléatoire produit 16\,034 vrais positifs, 13\,123 faux positifs et 11
 Modèle & Précision & Rappel & F1 & PR-AUC\\
 \midrule
 Persistance & 0,000 & 0,000 & 0,000 & --\\
-Régression logistique & 0,253 & 0,084 & 0,126 & 0,185\\
-Forêt aléatoire & 0,342 & 0,100 & 0,155 & 0,219\\
+Régression logistique & 0,247 & 0,136 & 0,176 & 0,184\\
+Forêt aléatoire & 0,354 & 0,104 & 0,160 & 0,225\\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Cette seconde table répond mieux au besoin d'anticipation : la forêt prédit correctement environ un tiers de ses alertes, mais ne repère qu'environ un passage à vide sur dix. La régression logistique en repère encore moins, avec une précision plus faible. Les résultats sont issus d'une seule coupure temporelle et de six journées d'automne ; ils ne mesurent pas la stabilité entre semaines ou en période sans manifestations.
+Cette seconde table répond mieux au besoin d'anticipation : la forêt prédit correctement environ un tiers de ses alertes, mais ne repère qu'environ un passage à vide sur dix. La régression logistique en repère davantage, avec une précision plus faible. Les résultats sont issus d'une seule coupure temporelle et de six journées d'automne ; ils ne mesurent pas la stabilité entre semaines ou en période sans manifestations.
 
 \begin{figure}[ht]
 \centering\includegraphics[width=0.92\linewidth]{figures/precision-rappel.png}
 \caption{Courbes précision--rappel du notebook principal : toutes les stations à gauche, stations initialement non vides à droite. Les seuils présentés dans les tables ont été fixés sur la validation.}
 \end{figure}
 
-\clearpage
 \section{Réponse et portée des résultats}
 
 \callout{\textbf{Conclusion.} Oui, le projet sait \emph{construire} une cible exacte à +30 minutes et évaluer des modèles sur des relevés réels. Non, il ne démontre pas aujourd'hui une prévision fiable des stations qui vont se vider : le gain global de la forêt sur la persistance est négligeable et le rappel des nouveaux passages à vide est faible. Les stations fermées dans les 30 minutes suivantes sont hors du champ de l'évaluation.}
 
-Une régression complémentaire du nombre de vélos obtient une erreur absolue moyenne de 1,46 vélo, contre 1,34 pour la règle « nombre de vélos inchangé ». Elle n'apporte donc pas de gain établi. Le notebook \texttt{03\_Machine\_Learning\_Modeling.ipynb} étudie une cible différente (« à un moment quelconque des 30 prochaines minutes ») ; ses scores ne sont pas comparés aux chiffres ci-dessus.
+Une régression complémentaire du nombre de vélos, dans le même notebook, obtient une erreur absolue moyenne de 1,45 vélo, contre 1,34 pour la règle « nombre de vélos inchangé ». Elle n'apporte donc pas de gain établi. Une seule cible de classification et un seul notebook d'analyse font autorité pour cette remise.
 
 \subsection{Limites qui orientent la suite}
 \begin{itemize}
@@ -160,12 +168,13 @@ Une régression complémentaire du nombre de vélos obtient une erreur absolue m
 \item Rétablir une collecte vérifiée sur plusieurs semaines, avec alerte sur les trous et stockage adapté ; documenter les incidents de service connus.
 \item Évaluer séparément les états « ouverte et vide », « ouverte et non vide » et « fermée », sans filtrer sur l'état futur pour un usage opérationnel.
 \item Tester plusieurs semaines et plusieurs coupures temporelles, avec une analyse des jours perturbés, de la calibration et des faux négatifs.
-\item Compléter la carte interactive et les contrôles de reproduction dans une session Colab indépendante ; valider le rendu final avec les quatre membres avant l'envoi par mail.
 \end{enumerate}
 
 \section{Reproduction et livrables}
 
-Le dépôt public contient les instantanés, les contrôles qualité, le collecteur, les tests, le notebook exécuté et la source de ce rapport. Pour reproduire les résultats, cloner le dépôt, sélectionner la branche de remise, installer les dépendances de \texttt{requirements.txt}, lancer les tests unitaires, puis exécuter le notebook principal dans l'ordre. Depuis la racine du dépôt, compiler la source LaTeX avec Tectonic et les deux figures extraites du notebook. Les commandes exactes figurent dans le README ; les règles de provenance, nettoyage et conservation dans la note de gouvernance.
+Le dépôt public contient les instantanés, les contrôles qualité, le collecteur, les tests, le notebook unique exécuté, la carte HTML et la source de ce rapport. Pour reproduire les résultats, cloner le dépôt, sélectionner la branche de remise, installer les dépendances de \texttt{requirements.txt}, lancer les tests unitaires, puis exécuter le notebook dans l'ordre. Depuis la racine du dépôt, compiler la source LaTeX avec Tectonic et les trois figures extraites du notebook. Les commandes exactes figurent dans le README ; les règles de provenance, nettoyage et conservation dans la note de gouvernance.
+
+Une exécution Colab indépendante et une revue par les quatre membres restent nécessaires avant la transmission par mail.
 
 \section{État de consolidation du projet}
 
@@ -176,9 +185,8 @@ Le suivi des douze tâches est tenu directement dans le tableau GitHub Projects 
 \toprule
 \textbf{Statut Kanban} & \textbf{Tâches et raison principale}\\
 \midrule
-Done & \#2 qualité, \#3 préparation, \#4 exploration, \#5 preuve de concept à +30 min, \#9 évaluation, \#10 documentation.\\
+Done & \#2 qualité, \#3 préparation, \#4 exploration, \#5 preuve de concept à +30 min, \#8 variables historiques et baseline, \#9 évaluation, \#10 documentation, \#12 carte interactive.\\
 Review & \#1 collecte récente dégradée ; \#6 exécution Colab propre et revue collective non prouvées ; \#11 reproduction Colab complète non prouvée.\\
-In Progress & \#8 moyennes mobiles et périodes du jour absentes ; \#12 carte interactive et analyse par secteurs absentes.\\
 Todo & \#7 validation du groupe et transmission effective par mail.\\
 \bottomrule
 \end{tabularx}

@@ -16,7 +16,8 @@ Le groupe est responsable des copies, transformations, analyses et conclusions d
 | Statut brut | Une ligne par station dans chaque photographie du réseau | `data/raw/YYYY-MM-DD/*.json.gz` | URL source et `collected_at_utc` dans chaque fichier ; `source_last_updated` si fourni |
 | Référentiel | Nom, coordonnées, capacité et code de station ; une copie par jour disponible | `data/reference/station_information_YYYY-MM-DD.json.gz` | URL source et `collected_at_utc` dans le fichier |
 | Contrôle par passage | Nombre de stations, doublons, âge de `last_reported`, stations ouvertes sans vélo | `data/quality/YYYY-MM-DD.csv` | Une ligne par collecte réussie, heure UTC |
-| Vue analytique | Jointure, nettoyage, cible future et variables historiques calculés à l’exécution | `notebooks/Analyse_velib_V_07_11.ipynb` | Référentiel du 25 octobre ; période fixée dans le code ; pas de fichier dérivé faisant autorité |
+| Vue analytique | Jointure, nettoyage, cible future, géographie et variables historiques calculés à l’exécution | `notebooks/01_exploration_velib.ipynb` | Référentiel du 25 octobre ; période fixée dans le code ; un seul notebook faisant autorité |
+| Carte interactive | Stations en service observées, part du temps vide et vélos moyens | `docs/carte-stations.html` | Générée par le notebook ; fond OpenStreetMap chargé au moment de la consultation |
 | Audit de couverture | Comptages et trous sur une fenêtre glissante | `src/audit_collection.py` | Recalculé sur les fichiers bruts |
 
 Le collecteur préserve la réponse de chaque station et rejette un flux de moins de 1 000 stations ou comportant des identifiants dupliqués. Cette validation minimale ne garantit ni l’exhaustivité, ni la ponctualité du flux. Les instantanés sont append-only dans l’usage normal ; une correction doit être documentée, versionnée et accompagnée d’une comparaison avec les fichiers originaux.
@@ -39,6 +40,9 @@ Le collecteur préserve la réponse de chaque station et rejette un flux de moin
 | `temps` | Créneau de cinq minutes le plus proche, heure de Paris | Arrondi de `collecte` ; doublons station-créneau résolus en gardant la dernière collecte |
 | `vide` | 1 si `velos == 0` et `en_service == 1` | Variable descriptive ; une station fermée n’est pas comptée comme vide |
 | `cible` | 1 si station ouverte et sans vélo exactement à +30 minutes | Étiquette créée uniquement lorsque l’observation future existe et que la station est en service à `t` et `t+30` |
+| `jour_semaine`, `periode_jour` | Jour local (lundi = 0) et tranche nuit/matin/après-midi/soirée | Calculés sur `temps` à l'instant `t` |
+| `variation_15min`, `variation_30min` | Écart du nombre de vélos par rapport à un relevé passé exact | 0 si ce relevé manque, convention signalée comme limite |
+| `moyenne_velos_30min`, `nb_releves_30min`, `historique_court` | Moyenne des vélos en service de `t−30` à `t`, nombre de relevés et indicateur de moins de 4 relevés | Historique passé uniquement ; moyenne remplacée par le compteur actuel si historique court |
 
 ## 4. Règles de qualité et de préparation
 
@@ -47,7 +51,8 @@ Le collecteur préserve la réponse de chaque station et rejette un flux de moin
 3. Conserver la fenêtre historique dense du 25 au 30 octobre : 1 736 créneaux observés sur 1 740 attendus après arrondi (99,8 %), quatre trous de dix minutes. Ne pas interpoler un état futur absent.
 4. Exclure de l’analyse les 17 stations dont `last_reported` dépasse 24 heures au dernier relevé retenu ; garder trace de cette règle et du nombre écarté. Le seuil est un choix analytique, pas une preuve d’indisponibilité du service.
 5. La cible de classification utilise une vraie observation à +30 minutes. Les données futures ne sont pas des variables explicatives ; un embargo de 30 minutes sépare entraînement, validation et test. Les statistiques historiques par station sont apprises sur l’entraînement seul.
-6. Les valeurs manquantes des variations passées sont imputées à zéro dans le modèle actuel. Cela signifie « variation inconnue traitée comme nulle », et doit être considéré comme une limite, non comme une mesure observée.
+6. Les valeurs manquantes des variations passées sont imputées à zéro dans le modèle actuel. Cela signifie « variation inconnue traitée comme nulle », et doit être considéré comme une limite, non comme une mesure observée. La moyenne mobile utilise seulement les relevés en service disponibles jusqu'à `t` et signale les fenêtres de moins de quatre relevés.
+7. La carte exclut les stations sans observation en service et celles sans coordonnées valides. Les secteurs sont des quadrants définis par les médianes de latitude et longitude de l'échantillon, pas des arrondissements administratifs. La carte ne doit pas être utilisée pour inférer un effet causal de la localisation.
 
 L’audit récent du 7 novembre signalait seulement 9 relevés sur 576 attendus dans les 48 heures précédant son dernier instantané (1,56 %). Les jours récents ne sont donc pas substituables à la période dense dans l’évaluation. Le diagnostic se reproduit avec `python -m src.audit_collection --hours 48`, mais les résultats glissants peuvent changer lorsque de nouveaux fichiers sont collectés.
 

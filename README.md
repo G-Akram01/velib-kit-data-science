@@ -44,17 +44,17 @@ Le flux Vélib’ publie une **photographie de l’état courant**, et non un hi
 
 ## Résultats vérifiés
 
-Le [notebook principal](notebooks/Analyse_velib_V_07_11.ipynb) a été exécuté intégralement sur la période figée du 25 au 30 octobre, avec **1 736 créneaux sur 1 740 attendus (99,8 %)**. Le changement d'heure du 25 octobre explique les 300 créneaux théoriques de cette journée. Les quatre trous observés durent dix minutes chacun.
+Le [notebook unique](notebooks/01_exploration_velib.ipynb) a été exécuté intégralement sur la période figée du 25 au 30 octobre, avec **1 736 créneaux sur 1 740 attendus (99,8 %)**. Le changement d'heure du 25 octobre explique les 300 créneaux théoriques de cette journée. Les quatre trous observés durent dix minutes chacun.
 
-Parmi les stations en service analysées, **4,8 %** des observations sont vides et **18,3 %** ont au plus deux vélos. Sur le test chronologique, la forêt aléatoire obtient un **F1 de 0,564**, contre **0,562** pour la persistance. Cet écart de 0,002 ne démontre pas un gain robuste. La régression complémentaire du nombre de vélos a une erreur absolue moyenne de 1,46 vélo, contre 1,34 pour la règle « nombre inchangé ».
+Parmi les stations en service analysées, **4,8 %** des observations sont vides et **18,3 %** ont au plus deux vélos. Sur le test chronologique, la forêt aléatoire obtient un **F1 de 0,570**, contre **0,562** pour la persistance. Cet écart de 0,008, observé sur une seule coupure temporelle, ne démontre pas un gain robuste. La régression complémentaire du nombre de vélos a une erreur absolue moyenne de 1,45 vélo, contre 1,34 pour la règle « nombre inchangé ».
 
-Le [rapport PDF](docs/rapport-final.pdf) détaille la méthode, les graphiques, les résultats et les limites. Le notebook `03_Machine_Learning_Modeling.ipynb` est une **exploration distincte** : il prédit un passage à vide à n'importe quel moment des 30 minutes suivantes, parmi les stations initialement non vides. Ses scores ne sont pas comparables à ceux du notebook principal et ne sont pas utilisés dans le rapport.
+Le [rapport PDF](docs/rapport-final.pdf) détaille la méthode, les graphiques, les résultats et les limites. Le dépôt ne conserve qu'un seul notebook d'analyse : les anciennes versions et l'expérience portant sur une cible différente restent consultables dans l'historique Git, sans créer de second jeu de résultats pour la remise. Une [carte interactive des stations](docs/carte-stations.html) complète la carte statique du rapport ; ses couches distinguent les stations souvent vides des autres.
 
 Les statuts des douze tâches sont tenus directement dans le [tableau GitHub Projects](https://github.com/users/G-Akram01/projects/2/views/1).
 
 ## Réponse à la question
 
-**Peut-on prévoir qu'une station Vélib' en service sera vide exactement 30 minutes plus tard ?** Les relevés permettent de construire une cible future vérifiable, mais le modèle actuel ne démontre **pas** de gain fiable sur une règle très simple : si la station est vide maintenant, la prédire encore vide. Le F1 global de la forêt aléatoire est de 0,564, contre 0,562 pour cette persistance sur le même test chronologique. Pour les stations **encore pourvues de vélos**, qui représentent le cas d'usage le plus utile, la forêt n'en détecte que 10,0 % lorsqu'elles se vident à +30 minutes (précision 34,2 %, F1 0,155). La régression logistique détecte 8,4 % de ces cas (précision 25,3 %, F1 0,126). Le résultat est une preuve de concept descriptive, pas une alerte exploitable en temps réel.
+**Peut-on prévoir qu'une station Vélib' en service sera vide exactement 30 minutes plus tard ?** Les relevés permettent de construire une cible future vérifiable, mais le modèle actuel ne démontre **pas** de gain fiable sur une règle très simple : si la station est vide maintenant, la prédire encore vide. Le F1 global de la forêt aléatoire est de 0,570, contre 0,562 pour cette persistance sur le même test chronologique. Pour les stations **encore pourvues de vélos**, qui représentent le cas d'usage le plus utile, la forêt n'en détecte que 10,4 % lorsqu'elles se vident à +30 minutes (précision 35,4 %, F1 0,160). La régression logistique détecte 13,6 % de ces cas (précision 24,7 %, F1 0,176). Le résultat est une preuve de concept descriptive, pas une alerte exploitable en temps réel.
 
 Cette réponse est en outre **conditionnelle** : le jeu de test ne conserve que les stations en service à l'instant initial **et** à +30 minutes. Il écarte donc les stations qui ferment pendant cet intervalle. Les [fermetures temporaires annoncées par Vélib’ pour le 31 octobre](https://blog.velib-metropole.fr/fermeture-temporaire-de-stations-velib-a-loccasion-des-manifestations-2/) ont commencé dès le 30 octobre ; la [Ville de Paris documente aussi celles du 24 octobre](https://www.paris.fr/?photo=26-12). Dans nos relevés, le nombre de stations où `is_renting != 1` est d'environ 20 en milieu de semaine, contre 166 le 25 octobre et jusqu'à 142 le 30 au soir. Le flux n'indique pas la cause de chaque fermeture. Les moyennes du dimanche et les scores du modèle ne représentent donc pas nécessairement une semaine sans perturbation. La [note de gouvernance](docs/gouvernance-donnees.md) décrit ce biais et les règles d'exclusion.
 
@@ -97,8 +97,8 @@ Le collecteur continue tant que le workflow reste activé. L’indicateur `compl
 | `data/reference/` | Caractéristiques des stations, rafraîchies quotidiennement quand la source répond |
 | `data/quality/YYYY-MM-DD.csv` | Nombre de stations, retard des signalements, stations vides et autres métriques par relevé |
 | `src/audit_collection.py` | Bilan de la fenêtre glissante de 48 h |
-| `notebooks/Analyse_velib_V_07_11.ipynb` | Notebook principal exécuté : qualité, exploration et cible exacte à +30 min |
-| `notebooks/03_Machine_Learning_Modeling.ipynb` | Exploration d'une autre cible, hors résultats du rapport |
+| `notebooks/01_exploration_velib.ipynb` | Notebook unique exécuté : qualité, exploration, géographie, variables historiques et cible exacte à +30 min |
+| `docs/carte-stations.html` | Carte interactive des stations observées, avec couches et informations au survol |
 | `docs/rapport-final.tex` et `docs/rapport-final.pdf` | Source LaTeX et rapport de remise compilé |
 | `docs/gouvernance-donnees.md` | Provenance, dictionnaire, qualité, droits, biais et conservation |
 | `tests/` | Tests unitaires sans connexion réseau |
@@ -119,11 +119,11 @@ python -m unittest discover -s tests -v
 python -m src.audit_collection --hours 48
 ```
 
-Ouvrir ensuite `notebooks/Analyse_velib_V_07_11.ipynb` et exécuter toutes les cellules dans l'ordre. Le notebook est volontairement limité aux dates du 25 au 30 octobre pour que ses résultats soient reproductibles. L'audit sur 48 h mesure la **fenêtre récente** et affiche donc `complete_48h: false` avec les dernières données ; cela n'invalide pas la période historique retenue. Une collecte locale ponctuelle est facultative : `python -m src.collect_velib` ajoute un nouvel instantané et demande un accès réseau.
+Ouvrir ensuite `notebooks/01_exploration_velib.ipynb` et exécuter toutes les cellules dans l'ordre. Le notebook est volontairement limité aux dates du 25 au 30 octobre pour que ses résultats soient reproductibles. L'audit sur 48 h mesure la **fenêtre récente** et affiche donc `complete_48h: false` avec les dernières données ; cela n'invalide pas la période historique retenue. Une collecte locale ponctuelle est facultative : `python -m src.collect_velib` ajoute un nouvel instantané et demande un accès réseau.
 
 ### Recompiler le rapport LaTeX
 
-Depuis la racine de la branche de remise, installer [Tectonic](https://tectonic-typesetting.github.io/) et exécuter `tectonic docs/rapport-final.tex --outdir docs`. Le PDF est généré depuis `docs/rapport-final.tex` et les figures PNG extraites des cellules exécutées du notebook sous `docs/figures/`. La mise en page actuelle utilise les polices Georgia et Avenir Next disponibles sur le poste de compilation ; sur un autre système, ajuster les deux déclarations `\setmainfont` et `\setsansfont` au début du fichier LaTeX si elles manquent.
+Depuis la racine de la branche de remise, installer [Tectonic](https://tectonic-typesetting.github.io/) et exécuter `tectonic docs/rapport-final.tex --outdir docs`. Le PDF est généré depuis `docs/rapport-final.tex` et les trois figures PNG extraites des cellules exécutées du notebook sous `docs/figures/`. La mise en page actuelle utilise les polices Georgia et Avenir Next disponibles sur le poste de compilation ; sur un autre système, ajuster les deux déclarations `\setmainfont` et `\setsansfont` au début du fichier LaTeX si elles manquent.
 
 Pour lancer la première collecte sur GitHub, ouvrir **Actions → Collecte Vélib toutes les 5 minutes → Run workflow**, puis vérifier les fichiers sous `data/raw/`. Le workflow programmé doit figurer sur la branche par défaut `main`. Si le commit échoue faute de droits, vérifier les permissions GitHub Actions du dépôt et les règles de branche.
 
@@ -144,10 +144,10 @@ Utiliser `--private` si le groupe veut restreindre l’accès ; Colab devra alor
 
 ## Explorer dans Google Colab
 
-Pour ce dépôt public, ouvrir le [notebook principal dans Google Colab](https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/Analyse_velib_V_07_11.ipynb). Cette adresse pointe vers la version GitHub utilisée pour le rapport.
+Pour ce dépôt public, ouvrir le [notebook unique dans Google Colab](https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/01_exploration_velib.ipynb). Cette adresse pointe vers la version GitHub utilisée pour le rapport.
 
 ```text
-https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/Analyse_velib_V_07_11.ipynb
+https://colab.research.google.com/github/G-Akram01/velib-kit-data-science/blob/finalisation-remise-2026-11-08/notebooks/01_exploration_velib.ipynb
 ```
 
 Chaque membre peut exécuter le notebook et contribuer au même dépôt via branches et pull requests. Pour une copie modifiable sur Drive : **Fichier → Enregistrer une copie dans Drive → Partager**. La version GitHub reste la référence commune.
@@ -183,4 +183,4 @@ Les variables `is_installed`, `is_renting` et `is_returning` du flux GBFS Vélib
 
 ## Livrable
 
-Code GitHub, [notebook principal exécuté](notebooks/Analyse_velib_V_07_11.ipynb), [rapport PDF](docs/rapport-final.pdf), graphiques commentés, limites du jeu de données, sources et méthode de collecte. Date de remise : **08 novembre 2026 à 18 h**.
+Code GitHub, [notebook unique exécuté](notebooks/01_exploration_velib.ipynb), [rapport PDF](docs/rapport-final.pdf), graphiques commentés, limites du jeu de données, sources et méthode de collecte. Date de remise indiquée : **8 novembre 2026** ; l'heure et l'adresse de destination restent à confirmer par le groupe.
