@@ -157,6 +157,23 @@ Cette seconde table répond mieux au besoin d'anticipation : la forêt prédit c
 
 Une régression complémentaire du nombre de vélos, dans le même notebook, obtient une erreur absolue moyenne de 1,45 vélo, contre 1,34 pour la règle « nombre de vélos inchangé ». Elle n'apporte donc pas de gain établi. Une seule cible de classification et un seul notebook d'analyse font autorité pour cette remise.
 
+
+\subsection{Apports scientifiques et interprétation des résultats}
+
+\textbf{Un historique exploitable à partir de données temps réel.}
+Le premier apport du projet est la constitution et la qualification d'un historique de disponibilités Vélib' à partir d'un flux ne fournissant que l'état courant des stations. Sur les six journées retenues, 1\,736 des 1\,740 créneaux attendus ont été observés, soit 99,8\,\% de couverture. Cette base permet d'étudier les dynamiques temporelles de 1\,503 stations après les exclusions de qualité.
+
+\textbf{L'importance de comparer les modèles à une référence simple.}
+La forêt aléatoire atteint un F1 de 0,570 contre 0,562 pour la persistance. L'écart de 0,008 est trop faible, sur cette seule séparation chronologique, pour établir une amélioration robuste. Ce résultat illustre l'importance d'une baseline : un modèle plus complexe n'est pas nécessairement plus utile qu'une règle simple.
+
+\textbf{La difficulté spécifique de l'anticipation.}
+Seulement 4,8\,\% des observations de stations en service correspondent à une station vide. Sur le sous-ensemble des stations initialement non vides, la forêt aléatoire obtient une précision de 35,4\,\% et un rappel de 10,4\,\%. Elle identifie donc une partie des futurs passages à vide, mais en manque près de neuf sur dix. Le score global ne doit pas masquer cette difficulté centrale pour l'utilisateur.
+
+\textbf{Les enseignements méthodologiques.}
+L'étude distingue la qualité des données, la capacité à construire une cible future vérifiable et la performance prédictive. Elle montre aussi l'intérêt d'une évaluation chronologique, de l'analyse des faux négatifs et de la prise en compte des fermetures temporaires. La cible actuelle étant conditionnée au maintien en service de la station à l'instant futur, les résultats ne décrivent pas l'ensemble des situations d'indisponibilité.
+
+Ces résultats constituent une base empirique pour poursuivre la recherche. Une évaluation sur plusieurs semaines, avec plusieurs périodes de test et une définition plus opérationnelle de l'indisponibilité, serait nécessaire avant de conclure à l'utilité d'un système de prévision.
+
 \subsection{Limites qui orientent la suite}
 \begin{itemize}
 \item \textbf{Période et incidents.} Six jours, un seul dimanche et deux épisodes de fermeture encadrant la période ne suffisent pas à conclure sur un usage ordinaire, une saison ou l'effet des manifestations.
