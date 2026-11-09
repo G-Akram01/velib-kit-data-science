@@ -48,7 +48,7 @@ Le [notebook unique](notebooks/01_analyse_finale_velib.ipynb) a été exécuté 
 
 Parmi les stations en service analysées, **4,8 %** des observations sont vides et **18,3 %** ont au plus deux vélos. Sur le test chronologique, la forêt aléatoire obtient un **F1 de 0,570**, contre **0,562** pour la persistance. Cet écart de 0,008, observé sur une seule coupure temporelle, ne démontre pas un gain robuste. La régression complémentaire du nombre de vélos a une erreur absolue moyenne de 1,45 vélo, contre 1,34 pour la règle « nombre inchangé ».
 
-Le [rapport PDF](docs/rapport-final.pdf) détaille la méthode, les graphiques, les résultats et les limites. Le dossier `notebooks/` contient le notebook final ; les versions précédentes sont conservées dans [`notebooks/archive/`](notebooks/archive/) uniquement à titre d'archives. Une [carte interactive des stations](https://g-akram01.github.io/velib-kit-data-science/carte-stations.html) complète la carte statique du rapport ; ses couches distinguent les stations souvent vides des autres.
+Le [rapport PDF](docs/rapport-final.pdf) détaille la méthode, les graphiques, les résultats et les limites. Le dossier `notebooks/` contient le notebook final ; les versions précédentes sont conservées dans [branche d'archives](https://github.com/G-Akram01/velib-kit-data-science/tree/archive-notebooks-2026-11-08/notebooks/archive) uniquement à titre d'archives. Une [carte interactive des stations](https://g-akram01.github.io/velib-kit-data-science/carte-stations.html) complète la carte statique du rapport ; ses couches distinguent les stations souvent vides des autres.
 
 Les statuts des douze tâches sont tenus directement dans le [tableau GitHub Projects](https://github.com/users/G-Akram01/projects/2/views/1).
 
